@@ -5,6 +5,8 @@ config.read('klingel.ini')
 
 DOOR_OPEN_CODE = config.get("sip", "door_open_code", fallback="2")
 RING_SIP_NUMBER = config.get("sip", "ring_number", fallback="42")
+SIP_USERNAME = config.get("sip", "username", fallback="sprechanlage")
+SIP_PASSWORD = config.get("sip", "password", fallback="")
 
 BUTTON_GPIO_PIN = config.getint("bell", "button_gpio_pin", fallback=10)
 OPENER_GPIO_PIN = config.getint("bell", "opener_gpio_pin", fallback=11)

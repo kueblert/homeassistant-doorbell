@@ -7,6 +7,7 @@ from threading import Thread
 from typing_extensions import Literal
 from SIPInterface import SIPInterface
 import logging
+from Config import RING_SIP_NUMBER, SIP_USERNAME, SIP_PASSWORD
 
 log = logging.getLogger("Linphone")
 log.setLevel(logging.ERROR)
@@ -26,7 +27,7 @@ class LinphoneInterface(SIPInterface):
         self.__thread.start()
         
     def __run(self):
-        cmd = 'linphonec', '-b', '/home/klingel/.linphonerc', '-d', '0'
+        cmd = 'linphonec', '-b', '~/.linphonerc', '-d', '0'
         self.__process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
         os.set_blocking(self.__process.stdout.fileno(), False)
         os.set_blocking(self.__process.stderr.fileno(), False)
@@ -49,34 +50,28 @@ class LinphoneInterface(SIPInterface):
     
     def send(self, cmd: str):
         self.cmd_queue.put(cmd)
-    
-    #def read(self) -> str:
-    #    if not self.out_queue.empty():
-    #        return self.out_queue.get()
-    #    else:
-    #        return ""
 
     def __handle(self, line: str):
         log.info("h: %s" % line)
         if line.startswith("linphonec>"):
             if not self.cmd_queue.empty():
                 self.__write(self.cmd_queue.get())
-        elif line == "Password for sprechanlage on fritz.box:":
-            self.send("doorbell123")
+        elif line == f"Password for {SIP_USERNAME} on fritz.box:":
+            self.send(SIP_PASSWORD)
         elif line.startswith("Receiving tone "):
             code = line[len("Receiving tone ")]
             self.code_received(code)
-        elif line.startswith("Establishing call id to sip:42@fritz.box"):
+        elif line.startswith(f"Establishing call id to sip:{RING_SIP_NUMBER}@fritz.box"):
             self.call_state_changed("estabilishing_call")
-        elif line.endswith("to sip:42@fritz.box in progress."):
+        elif line.endswith("to sip:{RING_SIP_NUMBER}@fritz.box in progress."):
             self.call_state_changed("call_in_progress")
-        elif line.endswith("with sip:42@fritz.box ended (Call declined)."):
+        elif line.endswith("with sip:{RING_SIP_NUMBER}@fritz.box ended (Call declined)."):
             self.call_state_changed("call_declined")
-        elif line.endswith("with sip:42@fritz.box connected."):
+        elif line.endswith("with sip:{RING_SIP_NUMBER}@fritz.box connected."):
             self.call_state_changed("call_connected")
             # the other side has answered the call.
             #self.send("unmute")
-        elif "with sip:42@fritz.box ended" in line:
+        elif "with sip:{RING_SIP_NUMBER}@fritz.box ended" in line:
             self.call_state_changed("call_ended")
             self.should_run = False
         #self.out_queue.put(line)
