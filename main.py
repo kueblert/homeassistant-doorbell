@@ -49,8 +49,10 @@ def perform_voice_call():
     while phone.should_run:
         sleep(0.1)
 
+print("Active")
 while True:
     doorbell.wait_for_ring()
+    print("RINGGGG")
     perform_voice_call()
     print("Waiting for another ring...")
 

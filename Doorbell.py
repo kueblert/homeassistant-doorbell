@@ -12,13 +12,13 @@ class Doorbell:
     def __del__(self):
         GPIO.cleanup()
     
-    def wait_for_ring():
+    def wait_for_ring(self):
         while True:
             if GPIO.input(BUTTON_GPIO_PIN) == GPIO.HIGH:
                 return
             else:
                 sleep(0.01)
     
-    def open():
+    def open(self):
         #TODO use OPENER_GPIO_PIN
         print("DOOR OPENER NOT IMPLEMENTED!")
