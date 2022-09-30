@@ -1,10 +1,11 @@
-# homeassistant-doorbell
-Connect a Raspberry Pi as a doorbell to an AVM FritzBox and HomeAssistant.
-Uses Liblinphone for SIP communication, MQTT for communication with HomeAssistant.
+# Door bell for FritzBox with Raspberry Pi and HomeAssistant
+Connect a Raspberry Pi as a doorbell to an AVM Fritz!Box and to HomeAssistant.
 
 Transmit voice between door and telephone (requires a speaker and microphone).
 Trigger a door opener via Fritz!Fon.
 Send events and state to HomeAssistant.
+
+Uses Liblinphone for SIP communication, MQTT for communication with HomeAssistant.
 
 IMPORTANT! This is made to work with my setup and so far untested as I am not actively operating this doorbell. You might need to adjust code to make it work with your setup. It might also possibly drop into unreliable states.
 
@@ -20,3 +21,5 @@ The door opener responds to dialing the digit 2.
 ## HomeAssistant
 The device should be able to configure automatically using MQTT device detection. Make sure to have the MQTT Addon installed and the config file adjusted to your installation.
 
+## Not implemented
+No video feed. Purposefully.
