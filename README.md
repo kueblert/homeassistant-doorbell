@@ -6,6 +6,7 @@ Trigger a door opener via Fritz!Fon.
 Send events and state to HomeAssistant.
 
 Uses Liblinphone for SIP communication, MQTT for communication with HomeAssistant.
+Echo cancellation for 2-way audio.
 
 IMPORTANT! This is made to work with my setup and so far untested as I am not actively operating this doorbell. You might need to adjust code to make it work with your setup. It might also possibly drop into unreliable states.
 
@@ -14,7 +15,7 @@ Uses GPIO library to detect a button press and (planned development) can use ano
 
 ## Fritz.box
 You need to install the device as a door opener in LAN connection mode.
-Set login data and provide the information to the config file as well as ~/.linphonerc
+Set login data and provide the information to the config file as well as .linphonerc within the project repository (or adjust the path to the file accordingly).
 Configure number of the door bell as 42 (only one bell is currently supported, but changing it should be trivial).
 The door opener responds to dialing the digit 2.
 
@@ -22,4 +23,4 @@ The door opener responds to dialing the digit 2.
 The device should be able to configure automatically using MQTT device detection. Make sure to have the MQTT Addon installed and the config file adjusted to your installation.
 
 ## Not implemented
-No video feed. Purposefully.
+No video feed. Purposefully. You could however configure linphone to send one.

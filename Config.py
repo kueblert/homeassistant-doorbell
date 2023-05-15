@@ -10,6 +10,7 @@ SIP_PASSWORD = config.get("sip", "password", fallback="")
 
 BUTTON_GPIO_PIN = config.getint("bell", "button_gpio_pin", fallback=10)
 OPENER_GPIO_PIN = config.getint("bell", "opener_gpio_pin", fallback=11)
+OPENER_ACTIVE_DURATION = config.getint("bell", "opener_active_duration", fallback=3)
 
 MQTT_BROKER = config.get("mqtt", "broker", fallback="homeassistant.local")
 MQTT_TOPIC = config.get("mqtt", "topic", fallback="doorbell")

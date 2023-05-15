@@ -1,0 +1,14 @@
+[Unit]
+Description=Doorbell
+After=network-online.target
+
+[Service]
+ExecStart=/bin/bash /home/klingel/klingel/startDoorbell.sh
+WorkingDirectory=/home/klingel/klingel
+StandardOutput=inherit
+StandardError=inherit
+Restart=always
+User=klingel
+
+[Install]
+WantedBy=multi-user.target

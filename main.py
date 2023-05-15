@@ -1,19 +1,21 @@
 #!/usr/bin/python3
 from LinphoneInterface import LinphoneInterface
+from TwinkleInterface import TwinkleInterface
 from HomeAssistant import HomeAssistant
-from Doorbell import Doorbell
+from Doorbell import DummyDoorbell
 from time import sleep
 
 from Config import DOOR_OPEN_CODE, RING_SIP_NUMBER
 
 # TODO make doorbell work even when HomeAssistant is not available.
 homeassistant = HomeAssistant()
-doorbell = Doorbell()
+doorbell = DummyDoorbell()
 
 def open_door():
     print("#### DOOR OPEN ####")
     doorbell.open()
     homeassistant.open_door(True)
+    # TODO this will never change back :-D
 
 def state_change_callback(state: str):
     print("SIP state: %s" % state)
@@ -49,10 +51,10 @@ def perform_voice_call():
     while phone.should_run:
         sleep(0.1)
 
-print("Active")
+print("Doorbell active")
 while True:
     doorbell.wait_for_ring()
-    print("RINGGGG")
+    print("RING")
     perform_voice_call()
     print("Waiting for another ring...")
 

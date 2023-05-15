@@ -1,6 +1,7 @@
 import os
 import time
 import subprocess
+import sys
 from time import sleep
 from queue import Queue
 from threading import Thread
@@ -27,10 +28,12 @@ class LinphoneInterface(SIPInterface):
         self.__thread.start()
         
     def __run(self):
-        cmd = 'linphonec', '-b', '~/.linphonerc', '-d', '0'
+        cmd = 'linphonec', '-b', '.linphonerc', '-d', '0'
         self.__process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
         os.set_blocking(self.__process.stdout.fileno(), False)
         os.set_blocking(self.__process.stderr.fileno(), False)
+        # suppress echos while the other end is talking
+        self.send("el on")
         while self.should_run and self.__process.returncode is None:
             line = self.__process.stdout.readline()
             if line:
